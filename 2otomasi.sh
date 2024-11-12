@@ -15,6 +15,7 @@ sudo apt update
 
 # Install Isc-Dhcp-Server, IPTables, Dan Iptables-Persistent
 sudo apt install sshpass
+sudo apt install expect
 sudo apt install -y isc-dhcp-server iptables iptables-persistent
 
 # Konfigurasi DHCP
@@ -65,22 +66,64 @@ sudo netfilter-persistent save
 
 # 4. Konfigurasi Cisco Switch melalui SSH dengan username dan password root
 echo "Mengonfigurasi Cisco Switch..."
-sshpass -o StrictHostKeyChecking=no <<EOF
-enable
-configure terminal
-vlan 10
-name VLAN10
-exit
-interface e0/0
-switchport mode trunk
-exit
-interface e0/1
-switchport mode access
-switchport access vlan 10
-exit
-end
-write memory
-EOF
+
+#!/usr/bin/expect -f
+
+# Set timeout
+set timeout 20
+
+# Define username, password, and IP Address of the Cisco Switch
+set username "root"
+set password "root"
+set ip_address "192.168.36.2"
+
+# Start SSH connection to the switch
+spawn ssh root@192.168.36.2
+
+# Handle the login prompt
+expect "Password:"
+send "root\r"
+
+# Wait for the prompt after login
+expect ">" 
+
+# Enter privileged exec mode
+send "enable\r"
+expect "Password:"
+send "root\r"
+
+# Wait for the prompt
+expect "#"
+
+# Enter global configuration mode
+send "configure terminal\r"
+expect "(config)#"
+
+# Configure interface e0/0 as trunk
+send "interface ethernet0/0\r"
+expect "(config-if)#"
+send "switchport mode trunk\r"
+send "exit\r"
+
+# Configure interface e0/1 as access VLAN 10
+send "interface ethernet0/1\r"
+expect "(config-if)#"
+send "switchport mode access\r"
+send "switchport access vlan 10\r"
+send "exit\r"
+
+# Exit the configuration mode
+send "end\r"
+expect "#"
+
+# Save the configuration
+send "write memory\r"
+expect "#"
+
+# Exit the SSH session
+send "exit\r"
+
+# End of script
 
 # 5. Konfigurasi MikroTik melalui SSH tanpa prompt
 echo "Mengonfigurasi MikroTik..."
