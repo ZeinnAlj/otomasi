@@ -88,7 +88,7 @@ ip address add address=192.168.36.2/24 interface=ether1
 ip address add address=192.168.200.1/24 interface=ether2     
 EOF
 else
-    sshpass -p "" ssh -o StrictHostKeyChecking=no admin@192.168.234.1 <<EOF
+    sshpass -p "1" ssh -o StrictHostKeyChecking=no admin@192.168.234.1 <<EOF
 ip address add address=192.168.36.1/24 interface=ether1      
 ip address add address=192.168.200.1/24 interface=ether2     
 EOF
