@@ -65,11 +65,14 @@ sudo netfilter-persistent save
 
 # 4. Konfigurasi Cisco Switch melalui SSH dengan username dan password root
 echo "Mengonfigurasi Cisco Switch..."
-sshpass ssh -o StrictHostKeyChecking=no <<EOF
+sshpass -o StrictHostKeyChecking=no <<EOF
 enable
 configure terminal
 vlan 10
 name VLAN10
+exit
+interface e0/0
+switchport mode trunk
 exit
 interface e0/1
 switchport mode access
