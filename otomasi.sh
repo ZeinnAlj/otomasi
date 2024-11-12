@@ -25,6 +25,7 @@ EOF
 
 sudo apt update
 sudo apt install sshpass -y
+sudo apt install isc-dhcp-server
 sudo apt install -y isc-dhcp-server iptables iptables-persistent
 
 # 1. Konfigurasi VLAN di Ubuntu Server
