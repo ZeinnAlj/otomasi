@@ -65,7 +65,7 @@ sudo netfilter-persistent save
 
 # 4. Konfigurasi Cisco Switch melalui SSH dengan username dan password root
 echo "Mengonfigurasi Cisco Switch..."
-sshpass -p "root" ssh -o StrictHostKeyChecking=no root@192.168.36.35 <<EOF
+sshpass ssh -o StrictHostKeyChecking=no <<EOF
 enable
 configure terminal
 vlan 10
@@ -83,7 +83,6 @@ EOF
 echo "Mengonfigurasi MikroTik..."
 if [ -z "" ]; then
     ssh -o StrictHostKeyChecking=no admin@192.168.234.1 <<EOF
-
 ip address add address=192.168.36.2/24 interface=ether1      
 ip address add address=192.168.200.1/24 interface=ether2     
 EOF
