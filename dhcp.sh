@@ -14,8 +14,10 @@ EOF
 
 # Update Repositori & Aplikasi
 sudo apt update
-sudo apt install python3 python3-pip -y
-pip3 install netmiko paramiko
+sudo apt install python3 
+sudo apt install python3-pip
+pip3 install netmiko 
+pip3 install paramiko
 pip3 install pyserial
 sudo apt install sshpass
 sudo apt install expect
@@ -87,4 +89,4 @@ else
     exit 1
 fi
 
-echo -e "Otomasi konfigurasi selesai.${NC}"
+echo -e "Otomasi konfigurasi selesai."
