@@ -5,11 +5,11 @@ set -e
 
 # Menambah Repositori Kartolo
 cat <<EOF | sudo tee /etc/apt/sources.list
-deb http://kartolo.sby.datautama.net.id/ubuntu/ focal main restricted universe multiverse
-deb http://kartolo.sby.datautama.net.id/ubuntu/ focal-updates main restricted universe multiverse
-deb http://kartolo.sby.datautama.net.id/ubuntu/ focal-security main restricted universe multiverse
-deb http://kartolo.sby.datautama.net.id/ubuntu/ focal-backports main restricted universe multiverse
-deb http://kartolo.sby.datautama.net.id/ubuntu/ focal-proposed main restricted universe multiverse
+deb http://kebo.pens.ac.id/ubuntu/ focal main restricted universe multiverse
+deb http://kebo.pens.ac.id/ubuntu/ focal-updates main restricted universe multiverse
+deb http://kebo.pens.ac.id/ubuntu/ focal-security main restricted universe multiverse
+deb http://kebo.pens.ac.id/ubuntu/ focal-backports main restricted universe multiverse
+deb http://kebo.pens.ac.id/ubuntu/ focal-proposed main restricted universe multiverse
 EOF
 
 # Update Repositori & Aplikasi
@@ -28,7 +28,7 @@ cat <<EOF | sudo tee /etc/dhcp/dhcpd.conf
 subnet 192.168.36.0 netmask 255.255.255.0 {
     range 192.168.36.10 192.168.36.100;
     option routers 192.168.36.1;
-    option domain-name-servers 8.8.8.8, 8.8.4.4;
+    option domain-name-servers 8.8.8.8;
 }
 EOF
 
@@ -69,9 +69,18 @@ sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 # Menyimpan Aturan IPTables
 sudo netfilter-persistent save
 
-#Konfigurasi Cisco Switch
-echo "Configuring Cisco switch via Ubuntu Server..."
+# Ensure the script is executable: chmod +x configure_switch.sh
+
+echo "Starting switch configuration..."
+
+# Step 1: Console configuration
 python3 configure_switch.py
+
+# Step 2: SSH configuration
+python3 configure_ssh.py
+
+echo "Switch configuration complete!"
+
 
 #Konfigurasi MikroTik melalui SSH
 echo -e "${BIRU}Memeriksa koneksi ke MikroTik di 192.168.200.1..."
