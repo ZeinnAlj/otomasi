@@ -14,7 +14,7 @@ EOF
 
 # Update Repositori & Aplikasi
 sudo apt update
-sudo apt install sshpass python3-pip expect -y
+sudo apt install -y sshpass python3-pip expect -y
 pip3 install paramiko
 pip3 install pyserial
 sudo apt install sshpass
@@ -72,9 +72,9 @@ echo "Configuring Cisco switch via Ubuntu Server..."
 python3 configure_switch.py
 
 #Konfigurasi MikroTik melalui SSH
-echo -e "${BIRU}Memeriksa koneksi ke MikroTik di 192.168.200.1...${NC}"
+echo -e "${BIRU}Memeriksa koneksi ke MikroTik di 192.168.200.1..."
 if ping -c 3 192.168.200.1 > /dev/null; then
-    echo -e "${HIJAU}Koneksi ke MikroTik berhasil. Melanjutkan konfigurasi MikroTik...${NC}"
+    echo -e "Koneksi ke MikroTik berhasil. Melanjutkan konfigurasi MikroTik..."
     
     sshpass -p "admin" ssh -o StrictHostKeyChecking=no admin@192.168.200.1 <<EOF
 interface vlan add name=vlan10 vlan-id=10 interface=ether1
@@ -83,8 +83,8 @@ ip address add address=192.168.200.1/24 interface=ether2
 ip route add dst-address=192.168.26.0/24 gateway=192.168.36.1
 EOF
 else
-    echo -e "${MERAH}Gagal terhubung ke MikroTik di 192.168.200.1. Periksa konfigurasi jaringan.${NC}"
+    echo -e "Gagal terhubung ke MikroTik di 192.168.200.1. Periksa konfigurasi jaringan."
     exit 1
 fi
 
-echo -e "${HIJAU}Otomasi konfigurasi selesai.${NC}"
+echo -e "Otomasi konfigurasi selesai.${NC}"
