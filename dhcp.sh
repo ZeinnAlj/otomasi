@@ -14,8 +14,8 @@ EOF
 
 # Update Repositori & Aplikasi
 sudo apt update
-sudo apt install -y sshpass python3-pip expect -y
-pip3 install paramiko
+sudo apt install python3 python3-pip -y
+pip3 install netmiko paramiko
 pip3 install pyserial
 sudo apt install sshpass
 sudo apt install expect
