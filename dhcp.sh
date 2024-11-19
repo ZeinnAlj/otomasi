@@ -78,9 +78,9 @@ if ping -c 3 192.168.200.1 > /dev/null; then
     
     sshpass -p "admin" ssh -o StrictHostKeyChecking=no admin@192.168.200.1 <<EOF
 interface vlan add name=vlan10 vlan-id=10 interface=ether1
-ip address add address=192.168.24.1/24 interface=vlan10
+ip address add address=192.168.36.1/24 interface=vlan10
 ip address add address=192.168.200.1/24 interface=ether2
-ip route add dst-address=192.168.24.0/24 gateway=192.168.24.1
+ip route add dst-address=192.168.26.0/24 gateway=192.168.36.1
 EOF
 else
     echo -e "${MERAH}Gagal terhubung ke MikroTik di 192.168.200.1. Periksa konfigurasi jaringan.${NC}"
