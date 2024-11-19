@@ -16,6 +16,8 @@ EOF
 sudo apt update
 sudo apt install python3 
 sudo apt install python3-pip
+pip3 install --upgrade cryptography
+pip3 install --upgrade pyopenssl
 pip3 install netmiko 
 pip3 install paramiko
 pip3 install pyserial
