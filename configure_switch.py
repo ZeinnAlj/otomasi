@@ -1,20 +1,28 @@
 import serial
 import time
 
-def configure_via_console(port, commands):
-    ser = serial.Serial(port, baudrate=9600, timeout=1)
-    time.sleep(2)  # Wait for connection
+def configure_switch_via_console():
+    # Set up the serial connection
+    ser = serial.Serial('/dev/ttyUSB0', baudrate=9600, timeout=1)
+    time.sleep(2)
+
+    # Entering configuration mode
+    ser.write(b'\r\n')
+    ser.write(b'enable\r\n')
+    ser.write(b'configure terminal\r\n')
     
-    for command in commands:
-        ser.write(command.encode() + b'\n')
-        time.sleep(1)
+    # Configure SSH
+    ser.write(b'hostname Switch1\r\n')
+    ser.write(b'ip domain-name zeze.com\r\n')
+    ser.write(b'crypto key generate rsa\r\n')
+    ser.write(b'username admin privilege 15 password cisco\r\n')
+    ser.write(b'line vty 0 15\r\n')
+    ser.write(b'login local\r\n')
+    ser.write(b'transport input ssh\r\n')
+    ser.write(b'exit\r\n')
     
-    output = ser.read(65535).decode()
+    print("Initial configuration completed.")
     ser.close()
-    return output
 
-port = "/dev/ttyS0"  # Replace with the appropriate serial port
-commands = ["enable", "configure terminal", "interface fa0/1", "description Automated_Config"]
-
-output = configure_via_console(port, commands)
-print(output)
+if __name__ == "__main__":
+    configure_switch_via_console()
